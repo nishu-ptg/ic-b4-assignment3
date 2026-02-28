@@ -12,7 +12,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = DB::table('categories')->get();
+        $categories = DB::table('categories as c')
+            ->select(
+                'c.*',
+                DB::raw('(SELECT COUNT(*) FROM books b WHERE b.category_id = c.id) as books_count')
+            )
+            ->get();
 
         return response()->json($categories);
     }

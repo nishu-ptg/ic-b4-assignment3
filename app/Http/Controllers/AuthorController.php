@@ -12,7 +12,12 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $authors = DB::table('books')->get();
+        $authors = DB::table('authors as a')
+            ->select(
+                'a.*',
+                DB::raw('(SELECT COUNT(*) FROM books b WHERE b.author_id = a.id) as books_count')
+            )
+            ->get();
 
         return response()->json($authors);
     }

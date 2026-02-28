@@ -12,7 +12,16 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = DB::table('books')->get();
+        $books = DB::table('books')
+            ->join('authors', 'books.author_id', '=', 'authors.id')
+            ->join('categories', 'books.category_id', '=', 'categories.id')
+            ->select(
+                'books.*',
+                'authors.name as author_name',
+                'categories.name as category_name'
+            )
+            ->orderBy('books.created_at', 'desc')
+            ->get();
 
         return response()->json($books);
     }
