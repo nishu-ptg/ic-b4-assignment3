@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     @include('layouts.main.partials._head-custom-scripts')
     @include('layouts.main.partials._head-custom-styles')
+    @stack('styles')
 </head>
 
 <body class="bg-gray-50 min-h-screen">
@@ -17,9 +18,12 @@
                 @include('layouts.main.partials._header')
             @endif
 
+            @include('layouts.main.partials._flash')
+
             @yield('content')
         </main>
     </div>
     @include('layouts.main.partials._custom-end-script')
+    @stack('scripts')
 </body>
 </html>

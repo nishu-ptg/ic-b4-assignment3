@@ -32,7 +32,12 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $authors = DB::table('authors')
+            ->where('status', 'active')->get();
+        $categories = DB::table('categories')
+            ->where('status', 'active')->get();
+
+        return view('books.create', compact('authors', 'categories'));
     }
 
     /**
@@ -40,7 +45,36 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'isbn' => 'required|unique:books,isbn',
+            'category_id' => 'required|exists:categories,id',
+            'author_id'  => 'required|exists:authors,id',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'published_at' => 'nullable|date',
+            'status' => 'required|in:available,borrowed,reserved',
+        ]);
+
+        $coverPath = null;
+        if ($request->hasFile('cover_image')) {
+            $coverPath = $request->file('cover_image')->store('covers', 'public');
+        }
+
+        DB::table('books')->insert([
+            'title' => $request->title,
+            'isbn' => $request->isbn,
+            'category_id' => $request->category_id,
+            'author_id' => $request->author_id,
+            'cover_image' => $coverPath,
+            'description' => $request->description,
+            'published_at' => now()->toDateString(),
+            'status' => $request->status,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('books.index')
+            ->with('success', 'Book created successfully!');
     }
 
     /**

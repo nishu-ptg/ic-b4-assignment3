@@ -28,7 +28,7 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        //
+        return view('authors.create');
     }
 
     /**
@@ -36,7 +36,23 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:authors,email',
+            'status' => 'required|in:active,inactive',
+        ]);
+
+        DB::table('authors')->insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'bio' => $request->bio,
+            'status' => $request->status,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('authors.index')
+            ->with('success', 'Author created successfully!');
     }
 
     /**
