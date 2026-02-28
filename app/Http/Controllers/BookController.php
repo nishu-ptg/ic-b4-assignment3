@@ -33,9 +33,13 @@ class BookController extends Controller
     public function create()
     {
         $authors = DB::table('authors')
-            ->where('status', 'active')->get();
+            ->where('status', 'active')
+            ->orderBy('name', 'asc')
+            ->get();
         $categories = DB::table('categories')
-            ->where('status', 'active')->get();
+            ->where('status', 'active')
+            ->orderBy('name', 'asc')
+            ->get();
 
         return view('books.create', compact('authors', 'categories'));
     }

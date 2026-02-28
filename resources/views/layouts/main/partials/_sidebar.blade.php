@@ -33,8 +33,8 @@
     <div class="p-4">
         <nav class="space-y-1">
             <a
-                href="./dashboard.html"
-                class="flex items-center space-x-3 p-3 rounded-lg sidebar-link"
+                href="{{ route('dashboard') }}"
+                class="flex items-center space-x-3 p-3 rounded-lg sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -125,6 +125,7 @@
                 <span class="font-medium">Books</span>
             </a>
 
+            <!--
             <a
                 href="./edit-profile.html"
                 class="flex items-center space-x-3 p-3 rounded-lg sidebar-link"
@@ -185,6 +186,7 @@
                 </svg>
                 <span class="font-medium">Logout</span>
             </a>
+            -->
         </nav>
     </div>
 </aside>
