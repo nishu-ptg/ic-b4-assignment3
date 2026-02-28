@@ -19,7 +19,8 @@ class CategoryController extends Controller
             )
             ->get();
 
-        return response()->json($categories);
+//        return response()->json($categories);
+        return view('categories.index', compact('categories'));
     }
 
     /**

@@ -23,7 +23,8 @@ class BookController extends Controller
             ->orderBy('books.created_at', 'desc')
             ->get();
 
-        return response()->json($books);
+//        return response()->json($books);
+        return view('books.index', compact('books'));
     }
 
     /**

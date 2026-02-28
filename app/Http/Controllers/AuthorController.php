@@ -19,7 +19,8 @@ class AuthorController extends Controller
             )
             ->get();
 
-        return response()->json($authors);
+//        return response()->json($authors);
+        return view('authors.index', compact('authors'));
     }
 
     /**
